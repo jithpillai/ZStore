@@ -1,11 +1,14 @@
 import { createContext, useReducer } from 'react';
-
+import Cookies from 'js-cookie';
 export const Store = createContext();
 
+//const savedCart = Cookies.get('cart');
 const initialState = {
-  cart: {
-    cartItems: [],
-  },
+  cart: Cookies.get('cart')
+    ? JSON.parse(Cookies.get('cart'))
+    : {
+        cartItems: [],
+      },
 };
 
 function reducer(state, action) {
@@ -20,14 +23,32 @@ function reducer(state, action) {
             item.name === existItem.name ? newItem : item
           )
         : [...state.cart.cartItems, newItem];
-      return { ...state, cart: { ...state.cart, cartItems } };
+      const updatedCart = { ...state.cart, cartItems };
+      Cookies.set('cart', JSON.stringify(updatedCart));
+      return { ...state, cart: updatedCart };
     }
     case 'CART_REMOVE_ITEM': {
       const actionItem = action.payload;
       const cartItems = state.cart.cartItems.filter(
         (item) => item.slug !== actionItem.slug
       );
-      return { ...state, cart: { ...state.cart, cartItems } };
+      const updatedCart = { ...state.cart, cartItems };
+      Cookies.set('cart', JSON.stringify(updatedCart));
+      return { ...state, cart: updatedCart };
+    }
+    case 'CART_UPDATE_ITEM_QTY': {
+      const newQuantity = action.payload.quantity;
+      const updateItem = action.payload.item;
+
+      const cartItems = state.cart.cartItems.map((item) => {
+        if (item.slug === updateItem.slug) {
+          item.quantity = newQuantity;
+        }
+        return item;
+      });
+      const updatedCart = { ...state.cart, cartItems };
+      Cookies.set('cart', JSON.stringify(updatedCart));
+      return { ...state, cart: updatedCart };
     }
     default:
       return state;

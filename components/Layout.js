@@ -1,11 +1,15 @@
 /* eslint-disable @next/next/no-img-element */
-import React, { useContext } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import Head from 'next/head';
 import Link from 'next/link';
 import { Store } from '../utils/Store';
 export default function Layout({ title, children }) {
-  const { state, dispatch } = useContext(Store);
+  const { state } = useContext(Store);
   const { cart } = state;
+  const [cartItemsCount, setCartItemsCount] = useState(0);
+  useEffect(() => {
+    setCartItemsCount(cart.cartItems.reduce((a, c) => a + c.quantity, 0));
+  });
   return (
     <>
       <Head>
@@ -25,9 +29,9 @@ export default function Layout({ title, children }) {
               <Link href="/cart" className="flex-col p-2">
                 <div className="grid grid-cols-2">
                   <img src="/images/icons/cart.png" alt="Cart" width={35} />
-                  {cart.cartItems.length > 0 && (
+                  {cartItemsCount > 0 && (
                     <span className="ml-1 rounded-full bg-red-600 px-1 py-1 text-xs font-bold text-white w-6 h-6 text-center">
-                      {cart.cartItems.reduce((a, c) => a + c.quantity, 0)}
+                      {cartItemsCount}
                     </span>
                   )}
                 </div>
