@@ -37,7 +37,7 @@ export default function ProductItems({ product }) {
       </Link>
       <div className="flex flex-col items-center justify-center p-5">
         <Link legacyBehavior href={`/product/${product.slug}`}>
-          <a>
+          <a className="text-black">
             <h2 className="text-lg font-semibold">{product.name}</h2>
           </a>
         </Link>
