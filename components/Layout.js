@@ -96,7 +96,7 @@ export default function Layout({ title, children }) {
         </header>
         <main className="container m-auto mt-4 px-4">{children}</main>
         <footer className="flex justify-center items-center h-10 shadow-inner">
-          Footer
+          Copyright &copy; 2022 ZeroTo5
         </footer>
       </div>
     </>
