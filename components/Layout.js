@@ -15,6 +15,8 @@ export default function Layout({ title, children }) {
   const { state, dispatch } = useContext(Store);
   const { cart } = state;
   const [cartItemsCount, setCartItemsCount] = useState(0);
+  const currentYear = new Date().getFullYear();
+  const copyrightOwner = 'ZeroTo5'
   useEffect(() => {
     setCartItemsCount(cart.cartItems.reduce((a, c) => a + c.quantity, 0));
   });
@@ -56,7 +58,7 @@ export default function Layout({ title, children }) {
               </Link>
               <span className="p-2">
                 {status === 'loading' ? (
-                  'Loaiding'
+                  'Loading'
                 ) : session?.user ? (
                   <Menu as={'div'} className="relative inline-block">
                     <Menu.Button className="text-blue-600">
@@ -96,7 +98,7 @@ export default function Layout({ title, children }) {
         </header>
         <main className="container m-auto mt-4 px-4">{children}</main>
         <footer className="flex justify-center items-center h-10 shadow-inner">
-          Copyright &copy; 2022 ZeroTo5
+          Copyright &copy; {currentYear+" "+copyrightOwner}
         </footer>
       </div>
     </>

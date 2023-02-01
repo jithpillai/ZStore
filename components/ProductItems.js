@@ -5,23 +5,10 @@ import Image from 'next/image';
 import { Store } from '../utils/Store';
 import { useRouter } from 'next/router';
 
-export default function ProductItems({ product }) {
+export default function ProductItems({ product, addToCartHandler }) {
   const router = useRouter();
   const { state, dispatch } = useContext(Store);
-  const addToCartHandler = () => {
-    const existItem = state.cart.cartItems.find((x) => x.slug === product.slug);
-    const quantity = existItem ? existItem.quantity + 1 : 1;
 
-    if (product.countInStock < quantity) {
-      alert('Product out of stock!');
-      return;
-    }
-    dispatch({
-      type: 'CART_ADD_ITEM',
-      payload: { ...product, quantity: quantity },
-    });
-    router.push('/cart');
-  };
   return (
     <div className="card">
       <Link legacyBehavior href={`/product/${product.slug}`}>
@@ -46,7 +33,7 @@ export default function ProductItems({ product }) {
         <button
           className="primary-button"
           type="button"
-          onClick={addToCartHandler}
+          onClick={()=> addToCartHandler(product)}
         >
           Add to cart
         </button>
