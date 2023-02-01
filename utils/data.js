@@ -87,6 +87,18 @@ const data = {
       countInStock: 5,
       description: 'HappyKid Winter Special Hoodie Set',
     },
+    {
+      name: 'Dummy Item',
+      slug: 'testing',
+      category: 'Infants',
+      image: '/images/testing.jpg',
+      price: 1,
+      brand: 'DUMMY',
+      rating: 4.9,
+      numReviews: 20,
+      countInStock: 100,
+      description: 'DUMMY Item added for testing payment',
+    },
   ],
 };
 
