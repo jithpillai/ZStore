@@ -26,6 +26,8 @@ const data = {
       numReviews: 8,
       countInStock: 4,
       description: 'Best for your babies in the month group',
+      isFeatured: true,
+      banner: '/images/banner1.jpg',
     },
     {
       name: 'Buzzee Baby Rombers Girls',
@@ -38,6 +40,8 @@ const data = {
       numReviews: 7,
       countInStock: 4,
       description: 'Best for your babies in the month group',
+      isFeatured: true,
+      banner: '/images/banner2.jpg',
     },
     {
       name: 'Buzzee Baby Rombers Full',
@@ -50,6 +54,8 @@ const data = {
       numReviews: 5,
       countInStock: 6,
       description: 'Best for your babies in the month group',
+      isFeatured: true,
+      banner: '/images/banner3.jpg',
     },
     {
       name: 'Baby Santa Rombers',
@@ -62,6 +68,8 @@ const data = {
       numReviews: 7,
       countInStock: 10,
       description: 'HappyKid Christmas Special',
+      isFeatured: true,
+      banner: '/images/banner4.jpg',
     },
     {
       name: 'Baby Rombers Grey Red',
