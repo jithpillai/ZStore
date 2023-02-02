@@ -16,7 +16,7 @@ export default function Layout({ title, children }) {
   const { cart } = state;
   const [cartItemsCount, setCartItemsCount] = useState(0);
   const currentYear = new Date().getFullYear();
-  const copyrightOwner = 'ZeroTo5'
+  const copyrightOwner = 'ZeroTo5';
   useEffect(() => {
     setCartItemsCount(cart.cartItems.reduce((a, c) => a + c.quantity, 0));
   });
@@ -78,6 +78,17 @@ export default function Layout({ title, children }) {
                           Order History
                         </DropdownLink>
                       </Menu.Item>
+
+                      {session.user.isAdmin && (
+                        <Menu.Item>
+                          <DropdownLink
+                            className="dropdown-link"
+                            href="/admin/dashboard"
+                          >
+                            Admin Dashboard
+                          </DropdownLink>
+                        </Menu.Item>
+                      )}
                       <Menu.Item>
                         <a
                           className="dropdown-link"
@@ -98,7 +109,7 @@ export default function Layout({ title, children }) {
         </header>
         <main className="container m-auto mt-4 px-4">{children}</main>
         <footer className="flex justify-center items-center h-10 shadow-inner">
-          Copyright &copy; {currentYear+" "+copyrightOwner}
+          Copyright &copy; {currentYear + ' ' + copyrightOwner}
         </footer>
       </div>
     </>
