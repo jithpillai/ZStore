@@ -53,7 +53,11 @@ export default function Layout({ title, children }) {
         <header>
           <nav className="flex h-16 items-center px-4 justify-between shadow-md">
             <Link href="/" className="text-lg font-bold">
-              <img src="/images/logo.png" alt="ZeroTo5" />
+              <img
+                className="headerLogo"
+                src="/images/ZeroTo5Logo.png"
+                alt="ZeroTo5"
+              />
             </Link>
             <form
               onSubmit={submitHandler}
@@ -74,6 +78,15 @@ export default function Layout({ title, children }) {
               </button>
             </form>
             <div className="flex">
+              <Link href="/search" className="flex-col md:hidden sm:block">
+                <button
+                  className="rounded bg-amber-300 p-2 text-sm dark:text-black search-btn-mobile"
+                  type="submit"
+                  id="button-addon2"
+                >
+                  <SearchIcon className="h-5 w-5"></SearchIcon>
+                </button>
+              </Link>
               <Link href="/cart" className="flex-col p-2">
                 <div className="grid grid-cols-2">
                   <img src="/images/icons/cart.png" alt="Cart" width={35} />
