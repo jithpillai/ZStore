@@ -1,14 +1,9 @@
 /* eslint-disable @next/next/no-img-element */
 import Link from 'next/link';
-import React, { useContext } from 'react';
+import React from 'react';
 import Image from 'next/image';
-import { Store } from '../utils/Store';
-import { useRouter } from 'next/router';
 
 export default function ProductItems({ product, addToCartHandler }) {
-  const router = useRouter();
-  const { state, dispatch } = useContext(Store);
-
   return (
     <div className="card">
       <Link legacyBehavior href={`/product/${product.slug}`}>
@@ -33,7 +28,7 @@ export default function ProductItems({ product, addToCartHandler }) {
         <button
           className="primary-button"
           type="button"
-          onClick={()=> addToCartHandler(product)}
+          onClick={() => addToCartHandler(product)}
         >
           Add to cart
         </button>
