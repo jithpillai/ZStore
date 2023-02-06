@@ -1,16 +1,16 @@
 /* eslint-disable @next/next/no-img-element */
-import React, { useContext, useEffect, useState } from 'react';
+import React, { Fragment, useContext, useEffect, useState } from 'react';
 import Head from 'next/head';
 import Link from 'next/link';
 import { Store } from '../utils/Store';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { signOut, useSession } from 'next-auth/react';
-import { Menu } from '@headlessui/react';
+import { Menu, Transition } from '@headlessui/react';
 import DropdownLink from './DropdownLink';
 import Cookies from 'js-cookie';
 import { useRouter } from 'next/router';
-import { SearchIcon } from '@heroicons/react/outline';
+import { ArrowLeftIcon, DesktopComputerIcon, SearchIcon, ShoppingBagIcon, ShoppingCartIcon, UserCircleIcon, UserIcon } from '@heroicons/react/outline';
 
 export default function Layout({ title, children }) {
   const { status, data: session } = useSession();
@@ -61,12 +61,12 @@ export default function Layout({ title, children }) {
             </Link>
             <form
               onSubmit={submitHandler}
-              className="mx-auto  hidden w-full justify-center md:flex"
+              className="mx-auto hidden w-full justify-center md:flex"
             >
               <input
                 onChange={(e) => setQuery(e.target.value)}
                 type="text"
-                className="rounded-tr-none rounded-br-none p-1 text-sm   focus:ring-0"
+                className="w-1/2 rounded-tr-none rounded-br-none p-1 text-sm focus:ring-0"
                 placeholder="Search products"
               />
               <button
@@ -88,8 +88,8 @@ export default function Layout({ title, children }) {
                 </button>
               </Link>
               <Link href="/cart" className="flex-col p-2">
-                <div className="grid grid-cols-2">
-                  <img src="/images/icons/cart.png" alt="Cart" width={35} />
+                <div className="grid grid-cols-1">
+                  <ShoppingCartIcon className="h-5 w-5 text-amber-600"></ShoppingCartIcon>
                   {cartItemsCount > 0 && (
                     <span className="ml-1 rounded-full bg-red-600 px-1 py-1 text-xs font-bold text-white w-6 h-6 text-center">
                       {cartItemsCount}
@@ -102,44 +102,53 @@ export default function Layout({ title, children }) {
                   'Loading'
                 ) : session?.user ? (
                   <Menu as={'div'} className="relative inline-block">
-                    <Menu.Button className="text-blue-600">
-                      {session.user.name}
+                    <Menu.Button className="text-black-600">
+                      <UserIcon className="h-5 w-5 text-amber-600"></UserIcon>
                     </Menu.Button>
-                    <Menu.Items className="absolute right-0 w-56 origin-top-right bg-white first-letter:shadow-lg">
-                      <Menu.Item>
-                        <DropdownLink className="dropdown-link" href="/profile">
-                          Profile
-                        </DropdownLink>
-                      </Menu.Item>
-                      <Menu.Item>
-                        <DropdownLink
-                          className="dropdown-link"
-                          href="/order-history"
-                        >
-                          Order History
-                        </DropdownLink>
-                      </Menu.Item>
-
-                      {session.user.isAdmin && (
+                    <Transition
+                      as={Fragment}
+                      enter="transition ease-out duration-100"
+                      enterFrom="transform opacity-0 scale-95"
+                      enterTo="transform opacity-100 scale-100"
+                      leave="transition ease-in duration-75"
+                      leaveFrom="transform opacity-100 scale-100"
+                      leaveTo="transform opacity-0 scale-95"
+                    ><Menu.Items className="side-menu absolute right-0 mt-2 w-56 origin-top-right divide-y divide-gray-100 rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
+                        <Menu.Item >
+                          <DropdownLink className="dropdown-link" href="/profile">
+                            <UserCircleIcon className='text-orange-600 w-5 h-5 m-1'></UserCircleIcon><span className="text-orange-600">{session.user.name} Profile</span>
+                          </DropdownLink>
+                        </Menu.Item>
                         <Menu.Item>
                           <DropdownLink
                             className="dropdown-link"
-                            href="/admin/dashboard"
+                            href="/order-history"
                           >
-                            Admin Dashboard
+                            <ShoppingBagIcon className='text-orange-600 w-5 h-5 m-1'></ShoppingBagIcon><span className="text-orange-600">Order History</span>
                           </DropdownLink>
                         </Menu.Item>
-                      )}
-                      <Menu.Item>
-                        <a
-                          className="dropdown-link"
-                          href="#"
-                          onClick={logoutClickHandler}
-                        >
-                          Logout
-                        </a>
-                      </Menu.Item>
-                    </Menu.Items>
+
+                        {session.user.isAdmin && (
+                          <Menu.Item>
+                            <DropdownLink
+                              className="dropdown-link"
+                              href="/admin/dashboard"
+                            >
+                              <DesktopComputerIcon className='text-orange-600 w-5 h-5 m-1'></DesktopComputerIcon><span className="text-orange-600">Admin Dashboard</span>
+                            </DropdownLink>
+                          </Menu.Item>
+                        )}
+                        <Menu.Item>
+                          <a
+                            className="dropdown-link"
+                            href="#"
+                            onClick={logoutClickHandler}
+                          >
+                            <ArrowLeftIcon className='text-orange-600 w-5 h-5 m-1'></ArrowLeftIcon><span className="text-orange-600">Logout</span>
+                          </a>
+                        </Menu.Item>
+                      </Menu.Items></Transition>
+
                   </Menu>
                 ) : (
                   <Link href="/login">Login</Link>
