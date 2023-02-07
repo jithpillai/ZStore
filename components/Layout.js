@@ -10,7 +10,15 @@ import { Menu, Transition } from '@headlessui/react';
 import DropdownLink from './DropdownLink';
 import Cookies from 'js-cookie';
 import { useRouter } from 'next/router';
-import { ArrowLeftIcon, DesktopComputerIcon, SearchIcon, ShoppingBagIcon, ShoppingCartIcon, UserCircleIcon, UserIcon } from '@heroicons/react/outline';
+import {
+  ArrowLeftIcon,
+  DesktopComputerIcon,
+  SearchIcon,
+  ShoppingBagIcon,
+  ShoppingCartIcon,
+  UserCircleIcon,
+  UserIcon,
+} from '@heroicons/react/outline';
 
 export default function Layout({ title, children }) {
   const { status, data: session } = useSession();
@@ -61,16 +69,16 @@ export default function Layout({ title, children }) {
             </Link>
             <form
               onSubmit={submitHandler}
-              className="mx-auto hidden w-full justify-center md:flex"
+              className="mx-auto w-full justify-center flex ml-3"
             >
               <input
                 onChange={(e) => setQuery(e.target.value)}
                 type="text"
-                className="w-1/2 rounded-tr-none rounded-br-none p-1 text-sm focus:ring-0"
+                className="search-field md:w-1/2 w-4/5 rounded rounded-tr-none rounded-br-none p-1 text-base focus:ring-0"
                 placeholder="Search products"
               />
               <button
-                className="rounded rounded-tl-none rounded-bl-none bg-amber-300 p-1 text-sm dark:text-black"
+                className="rounded rounded-tl-none rounded-bl-none bg-amber-300 p-1 text-sm dark:text-black search-btn"
                 type="submit"
                 id="button-addon2"
               >
@@ -78,20 +86,14 @@ export default function Layout({ title, children }) {
               </button>
             </form>
             <div className="flex">
-              <Link href="/search" className="flex-col md:hidden sm:block">
-                <button
-                  className="rounded bg-amber-300 p-2 text-sm dark:text-black search-btn-mobile"
-                  type="submit"
-                  id="button-addon2"
-                >
-                  <SearchIcon className="h-5 w-5"></SearchIcon>
-                </button>
-              </Link>
               <Link href="/cart" className="flex-col p-2">
-                <div className="grid grid-cols-1">
+                <div className="grid grid-cols-2">
                   <ShoppingCartIcon className="h-5 w-5 text-amber-600"></ShoppingCartIcon>
                   {cartItemsCount > 0 && (
-                    <span className="ml-1 rounded-full bg-red-600 px-1 py-1 text-xs font-bold text-white w-6 h-6 text-center">
+                    <span
+                      className="ml-1 rounded-full bg-red-600 px-0.25 md:px-0.5 md:py-0.5 cart-mobile md:text-xs font-bold text-white w-2.5 h-2.5 md:w-5 md:h-5
+                     text-center"
+                    >
                       {cartItemsCount}
                     </span>
                   )}
@@ -113,10 +115,17 @@ export default function Layout({ title, children }) {
                       leave="transition ease-in duration-75"
                       leaveFrom="transform opacity-100 scale-100"
                       leaveTo="transform opacity-0 scale-95"
-                    ><Menu.Items className="side-menu absolute right-0 mt-2 w-56 origin-top-right divide-y divide-gray-100 rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
-                        <Menu.Item >
-                          <DropdownLink className="dropdown-link" href="/profile">
-                            <UserCircleIcon className='text-orange-600 w-5 h-5 m-1'></UserCircleIcon><span className="text-orange-600">{session.user.name} Profile</span>
+                    >
+                      <Menu.Items className="side-menu absolute right-0 mt-2 w-56 origin-top-right divide-y divide-gray-100 rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
+                        <Menu.Item>
+                          <DropdownLink
+                            className="dropdown-link"
+                            href="/profile"
+                          >
+                            <UserCircleIcon className="text-orange-600 w-5 h-5 m-1"></UserCircleIcon>
+                            <span className="text-orange-600">
+                              {session.user.name} Profile
+                            </span>
                           </DropdownLink>
                         </Menu.Item>
                         <Menu.Item>
@@ -124,7 +133,10 @@ export default function Layout({ title, children }) {
                             className="dropdown-link"
                             href="/order-history"
                           >
-                            <ShoppingBagIcon className='text-orange-600 w-5 h-5 m-1'></ShoppingBagIcon><span className="text-orange-600">Order History</span>
+                            <ShoppingBagIcon className="text-orange-600 w-5 h-5 m-1"></ShoppingBagIcon>
+                            <span className="text-orange-600">
+                              Order History
+                            </span>
                           </DropdownLink>
                         </Menu.Item>
 
@@ -134,7 +146,10 @@ export default function Layout({ title, children }) {
                               className="dropdown-link"
                               href="/admin/dashboard"
                             >
-                              <DesktopComputerIcon className='text-orange-600 w-5 h-5 m-1'></DesktopComputerIcon><span className="text-orange-600">Admin Dashboard</span>
+                              <DesktopComputerIcon className="text-orange-600 w-5 h-5 m-1"></DesktopComputerIcon>
+                              <span className="text-orange-600">
+                                Admin Dashboard
+                              </span>
                             </DropdownLink>
                           </Menu.Item>
                         )}
@@ -144,11 +159,12 @@ export default function Layout({ title, children }) {
                             href="#"
                             onClick={logoutClickHandler}
                           >
-                            <ArrowLeftIcon className='text-orange-600 w-5 h-5 m-1'></ArrowLeftIcon><span className="text-orange-600">Logout</span>
+                            <ArrowLeftIcon className="text-orange-600 w-5 h-5 m-1"></ArrowLeftIcon>
+                            <span className="text-orange-600">Logout</span>
                           </a>
                         </Menu.Item>
-                      </Menu.Items></Transition>
-
+                      </Menu.Items>
+                    </Transition>
                   </Menu>
                 ) : (
                   <Link href="/login">Login</Link>

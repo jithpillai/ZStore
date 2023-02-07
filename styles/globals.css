@@ -71,11 +71,23 @@ textarea {
   background: orangered !important;
 }
 
-.search-btn-mobile {
-  height: 42px;
+.search-btn {
+  height: 45px;
   width: 33px;
 }
 
 .side-menu {
   z-index: 10;
+}
+
+.search-field {
+  height: 45px;
+}
+
+.search-form-mobile {
+  margin-left: 10px;
+}
+
+.cart-mobile {
+  font-size: 7px;
 }
