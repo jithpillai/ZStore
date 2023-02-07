@@ -167,7 +167,9 @@ export default function Layout({ title, children }) {
                     </Transition>
                   </Menu>
                 ) : (
-                  <Link href="/login">Login</Link>
+                  <Link className="text-black font-semibold ml-2" href="/login">
+                    Login
+                  </Link>
                 )}
               </span>
             </div>

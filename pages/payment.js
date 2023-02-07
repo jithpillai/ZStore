@@ -28,7 +28,6 @@ export default function PaymentScreen() {
         paymentMethod: selectedPaymentMethod,
       })
     );
-
     router.push('/placeorder');
   };
   useEffect(() => {
