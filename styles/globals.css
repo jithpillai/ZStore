@@ -58,6 +58,18 @@ textarea {
   @apply my-3 rounded-lg bg-green-100 p-3 text-green-700;
 }
 
+.info-card {
+  @apply my-3 rounded-lg bg-amber-300 p-3 text-black font-semibold;
+}
+
+a {
+  @apply text-amber-600;
+}
+
+a:hover {
+  @apply text-red-600;
+}
+
 .headerLogo {
   width: 100px;
 }

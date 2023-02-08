@@ -8,6 +8,7 @@ import { toast } from 'react-toastify';
 import Layout from '../../components/Layout';
 import { getError } from '../../utils/error';
 import Script from 'next/script';
+import myUtils from '../../utils/Utils';
 
 function reducer(state, action) {
   switch (action.type) {
@@ -119,8 +120,8 @@ function OrderScreen() {
     if (!razorpayLoaded) {
       return;
     }
-    const key_id = "rzp_test_6POD0HiESvXbq9";//process.env.RAZOR_PAY_TEST_KEY;
-    const key_secret = "9u8z5Ga6DraFv93AIoGugUwP";//process.env.RAZOR_PAY_TEST_SECRET;
+    const key_id = process.env.NEXT_PUBLIC_RAZOR_PAY_TEST_KEY;
+    const key_secret = process.env.NEXT_PUBLIC_RAZOR_PAY_TEST_SECRET;
     var options = {
       key: key_id, // Enter the Key ID generated from the Dashboard
       key_secret: key_secret,
@@ -130,9 +131,7 @@ function OrderScreen() {
       //order_id: orderId,
       description: "Thank you for shopping with Zeroto5",
       image: "https://shop.zeroto5.in/images/ZeroTo5Logo.png",
-      handler: function (response) {
-        alert(response.razorpay_payment_id);
-      },
+      handler: onApprove,
       prefill: {
         name: shippingAddress.fullName,
         email: session.user.email,
@@ -149,6 +148,23 @@ function OrderScreen() {
     const paymentObject = new window.Razorpay(options);
     paymentObject.open();
 
+  };
+
+  const onApprove = async (response) => {
+    if (response.razorpay_payment_id) {
+      try {
+        dispatch({ type: 'PAY_REQUEST' });
+        const { data } = await axios.put(
+          `/api/orders/${order._id}/pay`,
+          response.razorpay_payment_id
+        );
+        dispatch({ type: 'PAY_SUCCESS', payload: data });
+        toast.success('Order is paid successgully');
+      } catch (err) {
+        dispatch({ type: 'PAY_FAIL', payload: getError(err) });
+        toast.error(getError(err));
+      }
+    }
   };
 
   return (
@@ -168,7 +184,7 @@ function OrderScreen() {
                 <h2 className="mb-2 text-lg">Payment Method</h2>
                 <div>{paymentMethod}</div>
                 {isPaid ? (
-                  <div className="alert-success">Paid at {paidAt}</div>
+                  <div className="alert-success">Paid at {myUtils.formatDateAndTime(paidAt)}</div>
                 ) : (
                   <div className="alert-error">Not paid</div>
                 )}
@@ -270,11 +286,15 @@ function OrderScreen() {
                         <Image
                           className='grid-col'
                           src='/images/razorpay.png'
+                          alt='Razorpay Logo'
                           width={80}
                           height={40}
                         ></Image>
                       </div>
                     </div>
+                  )}
+                  {isPaid && !order.isDelivered && (
+                    <div className="info-card">Your order will be delivered soon. Thank you for shopping!</div>
                   )}
                   {session.user.isAdmin && isPaid && !order.isDelivered && (
                     <li>

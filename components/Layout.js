@@ -170,7 +170,7 @@ export default function Layout({ title, children }) {
                   <Link className="text-black font-semibold ml-2" href="/login">
                     Login
                   </Link>
-                )}
+                  )}
               </span>
             </div>
           </nav>
