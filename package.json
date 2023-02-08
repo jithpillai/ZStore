@@ -28,6 +28,7 @@
     "react-hook-form": "^7.40.0",
     "react-responsive-carousel": "^3.2.23",
     "react-toastify": "^9.1.1",
+    "request-promise": "^4.2.6",
     "s": "^1.0.0"
   },
   "devDependencies": {

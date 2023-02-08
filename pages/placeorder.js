@@ -21,8 +21,8 @@ export default function PlaceOrderScreen() {
     cartItems.reduce((a, c) => a + c.quantity * c.price, 0)
   ); // 123.4567 => 123.46
 
-  const shippingPrice = itemsPrice > 1000 ? 0 : 50;
-  const taxPrice = round2(itemsPrice * 0.15);
+  const shippingPrice = 0;//itemsPrice > 1000 ? 0 : 50;
+  const taxPrice = 0;//round2(itemsPrice * 0.15);
   const totalPrice = round2(itemsPrice + shippingPrice + taxPrice);
 
   const router = useRouter();
@@ -107,20 +107,20 @@ export default function PlaceOrderScreen() {
                     <tr key={item._id} className="border-b">
                       <td>
                         <Link className="flex items-center" href={`/product/${item.slug}`}>
-                            <Image
-                              src={item.image}
-                              alt={item.name}
-                              width={50}
-                              height={50}
-                            ></Image>
-                            &nbsp;
-                            {item.name}
+                          <Image
+                            src={item.image}
+                            alt={item.name}
+                            width={50}
+                            height={50}
+                          ></Image>
+                          &nbsp;
+                          {item.name}
                         </Link>
                       </td>
                       <td className=" p-5 text-right">{item.quantity}</td>
                       <td className="p-5 text-right">₹{item.price}</td>
                       <td className="p-5 text-right">
-                      ₹{item.quantity * item.price}
+                        ₹{item.quantity * item.price}
                       </td>
                     </tr>
                   ))}
@@ -159,14 +159,13 @@ export default function PlaceOrderScreen() {
                     <div>₹{totalPrice}</div>
                   </div>
                 </li>
-                <li>
-                  <button
-                    disabled={loading}
-                    onClick={placeOrderHandler}
-                    className="primary-button w-full"
-                  >
-                    {loading ? 'Loading...' : 'Place Order'}
-                  </button>
+                <li><button
+                  disabled={loading}
+                  onClick={placeOrderHandler}
+                  className="primary-button w-full"
+                >
+                  {loading ? 'Loading...' : 'Place Order'}
+                </button>
                 </li>
               </ul>
             </div>
