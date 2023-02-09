@@ -20,16 +20,20 @@ const handler = async (req, res) => {
 const postHandler = async (req, res) => {
   await db.connect();
   const newProduct = new Product({
-    name: 'sample name',
-    slug: 'sample-name-' + Math.random(),
-    image: '/images/shirt1.jpg',
+    name: 'Sample',
+    slug: 'slug' + Math.random(),
+    image: '/images/testing.jpg',
     price: 0,
-    category: 'sample category',
-    brand: 'sample brand',
+    category: 'Infants',
+    brand: 'General',
     countInStock: 0,
-    description: 'sample description',
+    description: 'Add Description',
     rating: 0,
     numReviews: 0,
+    banner:'/images/banner1.jpg',
+    isFeatured: false,
+    isLatest: false,
+    onSale: false
   });
 
   const product = await newProduct.save();

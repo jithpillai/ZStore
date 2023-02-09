@@ -75,8 +75,8 @@ a:hover {
 }
 
 .carousel-image {
-  height: 350px;
-  object-fit: cover;
+  height: 240px;
+  object-fit: contain;
 }
 
 .carousel .control-dots .dot {
@@ -102,4 +102,11 @@ a:hover {
 
 .cart-mobile {
   font-size: 7px;
+}
+.hide-scroll-bar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+.hide-scroll-bar::-webkit-scrollbar {
+  display: none;
 }

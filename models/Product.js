@@ -12,8 +12,11 @@ const productSchema = new mongoose.Schema(
     numReviews: { type: Number, required: true, default: 0 },
     countInStock: { type: Number, required: true, default: 0 },
     description: { type: String, required: true },
-    isFeatured: { type: Boolean, default: false },
+    isFeatured: { type: Boolean, default: false, required: true  },
+    isLatest: { type: Boolean, default: false, required: true },
+    onSale: { type: Boolean, default: false, required: true },
     banner: String,
+    sizesAvailable: [{ type: String }]
   },
   {
     timestamps: true,

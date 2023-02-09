@@ -9,8 +9,10 @@ import { Store } from '../utils/Store';
 import { Carousel } from 'react-responsive-carousel';
 import 'react-responsive-carousel/lib/styles/carousel.min.css';
 import Link from 'next/link';
+import HBox from '../components/HBox';
+import CategoryButtons from '../components/CategoryButtons';
 
-export default function Home({ products, featuredProducts }) {
+export default function Home({ latestProducts, featuredProducts , saleProducts}) {
   const { state, dispatch } = useContext(Store);
   const { cart } = state;
 
@@ -49,9 +51,11 @@ export default function Home({ products, featuredProducts }) {
           </div>
         ))}
       </Carousel>
-      <h2 className="h2 my-4">Latest Products</h2>
+      <CategoryButtons></CategoryButtons>
+      <HBox title={"Latest Products"} itemList={latestProducts} addToCartHandler={addToCartHandler}></HBox>
+      <div className="py-5 px-1 mx-1 font-semibold text-xl text-gray-800">On Sale</div>
       <div className="grid grid-cols-1 gap-4 md:grid-cols-3 lg:grid-cols-4">
-        {products.map((product) => (
+        {saleProducts.map((product) => (
           <ProductItems
             product={product}
             key={product.slug}
@@ -65,12 +69,14 @@ export default function Home({ products, featuredProducts }) {
 
 export async function getServerSideProps() {
   await db.connect();
-  const products = await Product.find().lean();
+  const saleProducts = await Product.find({ onSale: true }).lean();
+  const latestProducts = await Product.find({ isLatest: true }).lean();
   const featuredProducts = await Product.find({ isFeatured: true }).lean();
   return {
     props: {
       featuredProducts: featuredProducts.map(db.convertDocToObj),
-      products: products.map(db.convertDocToObj),
+      latestProducts: latestProducts.map(db.convertDocToObj),
+      saleProducts: saleProducts.map(db.convertDocToObj)
     },
   };
 }

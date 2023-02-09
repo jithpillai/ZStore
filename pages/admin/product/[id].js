@@ -67,6 +67,10 @@ export default function AdminProductEditScreen() {
         setValue('brand', data.brand);
         setValue('countInStock', data.countInStock);
         setValue('description', data.description);
+        setValue('banner', data.banner);
+        setValue('isFeatured', data.isFeatured);
+        setValue('isLatest', data.isLatest || false);
+        setValue('onSale', data.onSale || false);
       } catch (err) {
         dispatch({ type: 'FETCH_FAIL', payload: getError(err) });
       }
@@ -111,6 +115,10 @@ export default function AdminProductEditScreen() {
     brand,
     countInStock,
     description,
+    banner,
+    isFeatured,
+    isLatest,
+    onSale,
   }) => {
     try {
       dispatch({ type: 'UPDATE_REQUEST' });
@@ -123,6 +131,10 @@ export default function AdminProductEditScreen() {
         brand,
         countInStock,
         description,
+        isFeatured,
+        isLatest,
+        banner,
+        onSale,
       });
       dispatch({ type: 'UPDATE_SUCCESS' });
       toast.success('Product updated successfully');
@@ -209,7 +221,7 @@ export default function AdminProductEditScreen() {
                 )}
               </div>
               <div className="mb-4">
-                <label htmlFor="image">image</label>
+                <label htmlFor="image">Image</label>
                 <input
                   type="text"
                   className="w-full"
@@ -234,7 +246,7 @@ export default function AdminProductEditScreen() {
                 {loadingUpload && <div>Uploading....</div>}
               </div>
               <div className="mb-4">
-                <label htmlFor="category">category</label>
+                <label htmlFor="category">Category</label>
                 <input
                   type="text"
                   className="w-full"
@@ -248,7 +260,7 @@ export default function AdminProductEditScreen() {
                 )}
               </div>
               <div className="mb-4">
-                <label htmlFor="brand">brand</label>
+                <label htmlFor="brand">Brand</label>
                 <input
                   type="text"
                   className="w-full"
@@ -262,7 +274,7 @@ export default function AdminProductEditScreen() {
                 )}
               </div>
               <div className="mb-4">
-                <label htmlFor="countInStock">countInStock</label>
+                <label htmlFor="countInStock">Count In Stock</label>
                 <input
                   type="text"
                   className="w-full"
@@ -278,7 +290,7 @@ export default function AdminProductEditScreen() {
                 )}
               </div>
               <div className="mb-4">
-                <label htmlFor="countInStock">description</label>
+                <label htmlFor="description">Description</label>
                 <input
                   type="text"
                   className="w-full"
@@ -292,6 +304,43 @@ export default function AdminProductEditScreen() {
                     {errors.description.message}
                   </div>
                 )}
+              </div>
+              <div className="mb-4">
+                <label htmlFor="banner">Banner Image Path</label>
+                <input
+                  type="text"
+                  className="w-full"
+                  id="banner"
+                  {...register('banner', {
+                  })}
+                />
+              </div>
+              <div className="mb-4">
+                <label htmlFor="isFeatured">Is featured?</label>
+                <input
+                  type="checkbox"
+                  className='m-4'
+                  id="isFeatured"
+                  {...register('isFeatured', {})}
+                />
+              </div>
+              <div className="mb-4">
+                <label htmlFor="isLatest">Is Latest?</label>
+                <input
+                  type="checkbox"
+                  className='m-4'
+                  id="isLatest"
+                  {...register('isLatest', {})}
+                />
+              </div>
+              <div className="mb-4">
+                <label htmlFor="onSale">Is On Sale?</label>
+                <input
+                  type="checkbox"
+                  className='m-4'
+                  id="onSale"
+                  {...register('onSale', {})}
+                />
               </div>
               <div className="mb-4">
                 <button disabled={loadingUpdate} className="primary-button">
