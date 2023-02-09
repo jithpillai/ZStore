@@ -72,6 +72,7 @@ export async function getServerSideProps() {
   const saleProducts = await Product.find({ onSale: true }).lean();
   const latestProducts = await Product.find({ isLatest: true }).lean();
   const featuredProducts = await Product.find({ isFeatured: true }).lean();
+  console.log(saleProducts);
   return {
     props: {
       featuredProducts: featuredProducts.map(db.convertDocToObj),

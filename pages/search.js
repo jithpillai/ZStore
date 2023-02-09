@@ -9,7 +9,7 @@ import Product from '../models/Product';
 import db from '../utils/db';
 import ProductItems from '../components/ProductItems';
 
-const PAGE_SIZE = 2;
+const PAGE_SIZE = 6;
 
 const prices = [
   {
