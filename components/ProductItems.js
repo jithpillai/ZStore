@@ -12,21 +12,21 @@ export default function ProductItems({ product, addToCartHandler }) {
             src={product.image}
             alt={product.name}
             className="rounded shadow aspect-square object-center"
-            width={251}
-            height={251}
+            width={180}
+            height={180}
           />
         </a>
       </Link>
       <div className="flex flex-col items-center justify-center p-5">
         <Link legacyBehavior href={`/product/${product.slug}`}>
           <a className="text-black">
-            <h2 className="text-lg font-semibold">{product.name}</h2>
+            <span className="text-sm font-semibold">{product.name}</span>
           </a>
         </Link>
-        <p className="mb-2">{product.brand}</p>
-        <p className="font-semibold"> ₹ {product.price}</p>
+        <p className="mb-2 text-xs">{product.brand}</p>
+        <p className="text-xs font-semibold mb-1"> ₹ {product.price}</p>
         <button
-          className="primary-button"
+          className="primary-button text-xs"
           type="button"
           onClick={() => addToCartHandler(product)}
         >

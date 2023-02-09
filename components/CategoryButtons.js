@@ -7,7 +7,7 @@ export default function CategoryButtons() {
             <div className="inline-flex" role="group">
                 {data.categories.map((categoryName, i) => (
                     <Link
-                        href={`/search/?query=&category=${categoryName}`}
+                        href={`/search/?query=&pageType=category&category=${categoryName}`}
                         key={"category"+i}
                         className="bg-amber-300 hover:bg-amber-500 text-white font-bold py-3 px-4">
                         {categoryName}

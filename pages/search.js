@@ -39,6 +39,7 @@ export default function Search(props) {
     rating = 'all',
     sort = 'featured',
     page = 1,
+    pageType='search'
   } = router.query;
 
   const { products, countProducts, categories, brands, pages } = props;
@@ -104,7 +105,7 @@ export default function Search(props) {
   return (
     <Layout title="search">
       <div className="grid md:grid-cols-4 md:gap-5">
-        <div>
+        {pageType!="category" && <div>
           <div className="my-3">
             <h2>Categories</h2>
             <select
@@ -157,8 +158,9 @@ export default function Search(props) {
                 ))}
             </select>
           </div>
-        </div>
-        <div className="md:col-span-3">
+        </div>}
+        
+        <div className={pageType!=="category" ? "md:col-span-3" : "md:col-span-4"}>
           <div className="mb-2 flex items-center justify-between border-b-2 pb-2">
             <div className="flex items-center">
               {products.length === 0 ? 'No' : countProducts} Results
@@ -190,7 +192,7 @@ export default function Search(props) {
             </div>
           </div>
           <div>
-            <div className="grid grid-cols-1 gap-4 md:grid-cols-3  ">
+            <div className="grid grid-cols-2 gap-4 md:grid-cols-4 lg:grid-cols-5">
               {products.map((product) => (
                 <ProductItems
                   key={product._id}

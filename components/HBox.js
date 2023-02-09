@@ -20,7 +20,7 @@ export default function HBox({ title, itemList, addToCartHandler }) {
                     {itemList.map((product, i) => (
                         <div className="inline-block px-3" key={"hbox-item"+i}>
                             <div
-                                className="w-64 h-64 max-w-xs overflow-hidden rounded-lg shadow-md shadow-yellow-300 bg-white hover:shadow-xl hover:shadow-amber-600 transition-shadow duration-300 ease-in-out"
+                                className="w-48 h-56 max-w-xs overflow-hidden rounded-lg shadow-md shadow-yellow-300 bg-white hover:shadow-xl hover:shadow-amber-600 transition-shadow duration-300 ease-in-out"
                             >
                                 <div>
                                     <Link className="flex flex-col justify-center items-center" href={`/product/${product.slug}`}>
@@ -34,12 +34,12 @@ export default function HBox({ title, itemList, addToCartHandler }) {
                                     </Link>
                                     <div className="flex flex-col items-center justify-center p-5">
                                         <Link className="text-black" href={`/product/${product.slug}`}>
-                                            <h2 className="text-lg font-semibold whitespace-nowrap">{product.name}</h2>
+                                            <span className="text-sm font-semibold whitespace-nowrap">{product.name}</span>
                                         </Link>
-                                        <p className="mb-2">{product.brand}</p>
-                                        <p className="font-semibold"> ₹ {product.price}</p>
+                                        <p className="text-xs mb-2">{product.brand}</p>
+                                        <p className="text-xs font-semibold"> ₹ {product.price}</p>
                                         <button
-                                            className="primary-button"
+                                            className="text-xs primary-button"
                                             type="button"
                                             onClick={() => addToCartHandler(product)}
                                         >

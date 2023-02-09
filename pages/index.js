@@ -54,7 +54,7 @@ export default function Home({ latestProducts, featuredProducts , saleProducts})
       <CategoryButtons></CategoryButtons>
       <HBox title={"Latest Products"} itemList={latestProducts} addToCartHandler={addToCartHandler}></HBox>
       <div className="py-5 px-1 mx-1 font-semibold text-xl text-gray-800">On Sale</div>
-      <div className="grid grid-cols-1 gap-4 md:grid-cols-3 lg:grid-cols-4">
+      <div className="grid grid-cols-2 gap-4 md:grid-cols-4 lg:grid-cols-5">
         {saleProducts.map((product) => (
           <ProductItems
             product={product}
@@ -72,7 +72,6 @@ export async function getServerSideProps() {
   const saleProducts = await Product.find({ onSale: true }).lean();
   const latestProducts = await Product.find({ isLatest: true }).lean();
   const featuredProducts = await Product.find({ isFeatured: true }).lean();
-  console.log(saleProducts);
   return {
     props: {
       featuredProducts: featuredProducts.map(db.convertDocToObj),
