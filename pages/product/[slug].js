@@ -2,9 +2,10 @@ import axios from 'axios';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import { toast } from 'react-toastify';
 import Layout from '../../components/Layout';
+import QuantityBox from '../../components/QuantityBox';
 import Product from '../../models/Product';
 import db from '../../utils/db';
 import { Store } from '../../utils/Store';
@@ -16,17 +17,26 @@ export default function ProductScreen(props) {
   if (!product) {
     return <Layout title="Produt Not Found">Produt Not Found</Layout>;
   }
+  const existItem = state.cart.cartItems.find((x) => x.slug === product.slug);
+  const existingQty = existItem ? existItem.quantity : 0;
+  const [quantity, setQuantity] = useState(existingQty);
+
+  const updateCartQuantity = (qty) => {
+    setQuantity(qty);
+  }
 
   const addToCartHandler = async () => {
-    const existItem = state.cart.cartItems.find((x) => x.slug === product.slug);
-    const quantity = existItem ? existItem.quantity + 1 : 1;
+    let cartQuantity = quantity;
+    if (cartQuantity === 0) {
+      cartQuantity = 1; //When user clicks add to cart, atleast 1 quantity will be added
+    }
     const { data } = await axios.get(`/api/products/${product._id}`);
-    if (data.countInStock < quantity) {
+    if (data.countInStock < cartQuantity) {
       return toast.error('Sorry product is out of stock.');
     }
     dispatch({
       type: 'CART_ADD_ITEM',
-      payload: { ...product, quantity: quantity },
+      payload: { ...product, quantity: cartQuantity },
     });
     router.push('/cart');
   };
@@ -76,6 +86,7 @@ export default function ProductScreen(props) {
             <div className="font-bold">Status</div>
             <div>{product.countInStock > 0 ? 'In Stock' : 'Out of Stock'}</div>
           </div>
+          <QuantityBox minValue={1} maxValue={product.countInStock} initValue={existingQty} setQuantity={updateCartQuantity}></QuantityBox>
           <button className="primary-button w-full" onClick={addToCartHandler}>
             Add to cart
           </button>
