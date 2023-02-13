@@ -14,12 +14,12 @@ export default function ProductScreen(props) {
   const { product } = props;
   const { state, dispatch } = useContext(Store);
   const router = useRouter();
+  const [quantity, setQuantity] = useState(0);
   if (!product) {
     return <Layout title="Produt Not Found">Produt Not Found</Layout>;
   }
   const existItem = state.cart.cartItems.find((x) => x.slug === product.slug);
   const existingQty = existItem ? existItem.quantity : 0;
-  const [quantity, setQuantity] = useState(existingQty);
 
   const updateCartQuantity = (qty) => {
     setQuantity(qty);

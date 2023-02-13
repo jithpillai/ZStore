@@ -29,7 +29,7 @@ export default function Layout({ title, children }) {
   const copyrightOwner = 'ZeroTo5';
   useEffect(() => {
     setCartItemsCount(cart.cartItems.reduce((a, c) => a + c.quantity, 0));
-  });
+  }, [cart.cartItems]);
 
   const logoutClickHandler = () => {
     Cookies.remove('cart');
