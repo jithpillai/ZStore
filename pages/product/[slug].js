@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { useRouter } from 'next/router';
 import React, { useContext, useState } from 'react';
 import { toast } from 'react-toastify';
+import ImageThumbs from '../../components/ImageThumbs';
 import Layout from '../../components/Layout';
 import QuantityBox from '../../components/QuantityBox';
 import Product from '../../models/Product';
@@ -14,7 +15,10 @@ export default function ProductScreen(props) {
   const { product } = props;
   const { state, dispatch } = useContext(Store);
   const router = useRouter();
-  const [quantity, setQuantity] = useState(0);
+  const [allValues, setAllValues] = useState({
+    quantity: 0,
+    previewImageUrl: product.image
+  });
   if (!product) {
     return <Layout title="Produt Not Found">Produt Not Found</Layout>;
   }
@@ -22,11 +26,15 @@ export default function ProductScreen(props) {
   const existingQty = existItem ? existItem.quantity : 0;
 
   const updateCartQuantity = (qty) => {
-    setQuantity(qty);
+    setAllValues({...allValues, quantity: qty});
+  }
+
+  const onPreviewImageSelect = (imageUrl) => {
+    setAllValues({...allValues, previewImageUrl: imageUrl});
   }
 
   const addToCartHandler = async () => {
-    let cartQuantity = quantity;
+    let cartQuantity = allValues.quantity;
     if (cartQuantity === 0) {
       cartQuantity = 1; //When user clicks add to cart, atleast 1 quantity will be added
     }
@@ -49,7 +57,7 @@ export default function ProductScreen(props) {
       <div className="grid md:grid-cols-4 md:gap-3">
         <div className="md:col-span-2">
           <Image
-            src={product.image}
+            src={allValues.previewImageUrl}
             width={640}
             height={640}
             alt={product.name}
@@ -59,7 +67,10 @@ export default function ProductScreen(props) {
         <div>
           <ul>
             <li>
-              <h1 className="text-lg font-semibold">{product.name}</h1>
+              <ImageThumbs imageArray={product.previewImages} onSelect={onPreviewImageSelect}></ImageThumbs>
+            </li>
+            <li>
+              <h1 className="text-2xl mt-5 mb-2 font-semibold">{product.name}</h1>
             </li>
             <li>
               <span className="font-bold">Category:</span> {product.category}

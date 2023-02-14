@@ -65,7 +65,7 @@ const data = {
   },{
     "name": "Baby Santa Rombers",
     "slug": "santa_rombers",
-    "category": "Infants",
+    "category": "Infants",  
     "image": "/images/santa_romber.jpg",
     "price": 459,
     "brand": "HappyKid",

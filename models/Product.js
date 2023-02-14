@@ -13,6 +13,7 @@ const productSchema = new mongoose.Schema(
     countInStock: { type: Number, required: true, default: 0 },
     description: { type: String, required: true },
     isFeatured: { type: Boolean, default: false, required: true  },
+    previewImages: [{ type: String }],
     isLatest: Boolean,
     onSale: Boolean,
     banner: String,
