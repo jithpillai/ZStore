@@ -6,6 +6,7 @@ import { useForm } from 'react-hook-form';
 import { toast } from 'react-toastify';
 import Layout from '../../../components/Layout';
 import { getError } from '../../../utils/error';
+import { publish } from '../../../utils/events';
 
 function reducer(state, action) {
   switch (action.type) {
@@ -71,6 +72,7 @@ export default function AdminProductEditScreen() {
         setValue('isFeatured', data.isFeatured);
         setValue('isLatest', data.isLatest || false);
         setValue('onSale', data.onSale || false);
+        setValue('previewImages', data.previewImages ? data.previewImages.join(';') : []);
       } catch (err) {
         dispatch({ type: 'FETCH_FAIL', payload: getError(err) });
       }
@@ -80,6 +82,45 @@ export default function AdminProductEditScreen() {
   }, [productId, setValue]);
 
   const router = useRouter();
+
+  const previewUploadHandler = async (e, previewImageFile = "previewImages") => {
+    const url = `https://api.cloudinary.com/v1_1/${process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME}/upload`;
+    var previewUrls = [];
+    try {
+      publish('showLoadMask', { message: 'Uploading...', show: true });
+      dispatch({ type: 'UPLOAD_REQUEST' });
+      const {
+        data: { signature, timestamp },
+      } = await axios('/api/admin/cloudinary-sign');
+
+      const files = e.target.files;
+      const arrayOfFiles = [...files];//Array.from(files);
+      const uploaders = arrayOfFiles.map(file => {
+        const formData = new FormData();
+        formData.append('file', file);
+        formData.append('signature', signature);
+        formData.append('timestamp', timestamp);
+        formData.append('api_key', process.env.NEXT_PUBLIC_CLOUDINARY_API_KEY);
+        return axios.post(url, formData).then(response => {
+          previewUrls.push(response.data.secure_url);
+        });
+      });
+
+      axios.all(uploaders).then(() => {
+        console.log(previewUrls);
+        dispatch({ type: 'UPLOAD_SUCCESS' });
+        publish('showLoadMask', { message: 'Upload Success', show: false });
+        setValue(previewImageFile, previewUrls.join(";"));
+        toast.success('File uploaded successfully');
+      });
+      
+      
+    } catch (err) {
+      dispatch({ type: 'UPLOAD_FAIL', payload: getError(err) });
+      publish('showLoadMask', { message: 'Upload failed', show: false });
+      toast.error(getError(err));
+    }
+  }
 
   const uploadHandler = async (e, imageField = 'image') => {
     const url = `https://api.cloudinary.com/v1_1/${process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME}/upload`;
@@ -119,9 +160,11 @@ export default function AdminProductEditScreen() {
     isFeatured,
     isLatest,
     onSale,
+    previewImages
   }) => {
     try {
       dispatch({ type: 'UPDATE_REQUEST' });
+      previewImages = previewImages ? previewImages.split(";") : [];
       await axios.put(`/api/admin/products/${productId}`, {
         name,
         slug,
@@ -135,6 +178,7 @@ export default function AdminProductEditScreen() {
         isLatest,
         banner,
         onSale,
+        previewImages
       });
       dispatch({ type: 'UPDATE_SUCCESS' });
       toast.success('Product updated successfully');
@@ -243,6 +287,24 @@ export default function AdminProductEditScreen() {
                   onChange={uploadHandler}
                 />
 
+                {loadingUpload && <div>Uploading....</div>}
+              </div>
+              <div className='mb-4'>
+                <label htmlFor="previewImageTextArea">Preview Images</label>
+                <textarea id='previewImageTextArea' className='w-full' {...register('previewImages', {
+                    required: 'Please enter image',
+                  })}/>
+              </div>
+              <div className="mb-4">
+                <label htmlFor="previewImageFiles">Upload Preview Images</label>
+                <input
+                  type="file"
+                  className="w-full"
+                  id="previewImageFiles"
+                  multiple
+                  onChange={previewUploadHandler}
+                />
+                <div><p className='text-xs text-gray-500'>If you want to retain the old values of the preview images, Copy the previous values and paste it in the last, starting with a semicolon ; after uploading new files</p></div>
                 {loadingUpload && <div>Uploading....</div>}
               </div>
               <div className="mb-4">
