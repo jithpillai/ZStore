@@ -30,7 +30,11 @@ export default function Layout({ title, children }) {
   const currentYear = new Date().getFullYear();
   const copyrightOwner = 'ZeroTo5';
 
-  const [allValues, setAllValues] = useState({showLoading: false, message: 'Loading...', query: ''});
+  const [allValues, setAllValues] = useState({showLoading: true, message: 'Loading...', query: ''});
+
+  setTimeout(() => {
+    setAllValues({...allValues, showLoading: false});
+  }, 800);
 
   useEffect(() => {
     const showLoadMask = (e) => {
@@ -185,7 +189,7 @@ export default function Layout({ title, children }) {
             </div>
           </nav>
         </header>
-        {allValues.showLoading && <div className="absolute flex items-center justify-center min-h-screen bg-gray-100 bg-opacity-70 w-full">
+        {allValues.showLoading && <div className="absolute flex items-center justify-center min-h-screen bg-gray-100 bg-opacity-70 w-full z-20">
           <ColorRing
               visible={true}
               height="80"
