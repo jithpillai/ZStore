@@ -33,7 +33,8 @@ const postHandler = async (req, res) => {
     banner:'/images/banner1.jpg',
     isFeatured: false,
     isLatest: false,
-    onSale: false
+    onSale: false,
+    previewImages: []
   });
 
   const product = await newProduct.save();

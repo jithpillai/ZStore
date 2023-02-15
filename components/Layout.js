@@ -19,6 +19,8 @@ import {
   UserCircleIcon,
   UserIcon,
 } from '@heroicons/react/outline';
+import { ColorRing } from 'react-loader-spinner';
+import {subscribe, unsubscribe} from '../utils/events';
 
 export default function Layout({ title, children }) {
   const { status, data: session } = useSession();
@@ -27,9 +29,20 @@ export default function Layout({ title, children }) {
   const [cartItemsCount, setCartItemsCount] = useState(0);
   const currentYear = new Date().getFullYear();
   const copyrightOwner = 'ZeroTo5';
+
+  const [allValues, setAllValues] = useState({showLoading: false, message: 'Loading...', query: ''});
+
   useEffect(() => {
+    const showLoadMask = (e) => {
+      setAllValues({...allValues, message: e.detail.message, showLoading: e.detail.show});
+      e.detail.show ? document.body.classList.add('hide-scroll-bar') : document.body.classList.remove('hide-scroll-bar');
+    }
+    subscribe('showLoadMask', showLoadMask);
     setCartItemsCount(cart.cartItems.reduce((a, c) => a + c.quantity, 0));
-  }, [cart.cartItems]);
+    return () => { // Cleanup after component unmount
+      unsubscribe('showLoadMask', showLoadMask);
+    }
+  }, [cart.cartItems, allValues]);
 
   const logoutClickHandler = () => {
     Cookies.remove('cart');
@@ -37,12 +50,10 @@ export default function Layout({ title, children }) {
     signOut({ callbackUrl: '/login' });
   };
 
-  const [query, setQuery] = useState('');
-
   const router = useRouter();
   const submitHandler = (e) => {
     e.preventDefault();
-    router.push(`/search?query=${query}`);
+    router.push(`/search?query=${allValues.query}`);
   };
 
   return (
@@ -55,8 +66,7 @@ export default function Layout({ title, children }) {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <ToastContainer position="bottom-center" limit={1}></ToastContainer>
-
+      <ToastContainer position="bottom-center" limit={5}></ToastContainer>
       <div className="flex min-h-screen flex-col justify-between">
         <header>
           <nav className="flex h-16 items-center px-4 justify-between shadow-md">
@@ -72,7 +82,7 @@ export default function Layout({ title, children }) {
               className="mx-auto w-full justify-center flex ml-3"
             >
               <input
-                onChange={(e) => setQuery(e.target.value)}
+                onChange={(e) => setAllValues({...allValues, query: e.target.value})}
                 type="text"
                 className="search-field md:w-1/2 w-4/5 rounded rounded-tr-none rounded-br-none p-1 text-base focus:ring-0"
                 placeholder="Search products"
@@ -175,6 +185,19 @@ export default function Layout({ title, children }) {
             </div>
           </nav>
         </header>
+        {allValues.showLoading && <div className="absolute flex items-center justify-center min-h-screen bg-gray-100 bg-opacity-70 w-full">
+          <ColorRing
+              visible={true}
+              height="80"
+              width="80"
+              ariaLabel="blocks-loading"
+              wrapperStyle={{}}
+              wrapperClass="blocks-wrapper"
+              colors={['#e15b64', '#f47e60', '#f8b26a', '#abbd81', '#849b87']}
+            />
+            <div className='text-xl text-gray-600'>{allValues.message}</div>
+        </div>}
+        
         <main className="container m-auto mt-4 px-4">{children}</main>
         <footer className="flex justify-center items-center h-10 shadow-inner">
           Copyright &copy; {currentYear + ' ' + copyrightOwner}

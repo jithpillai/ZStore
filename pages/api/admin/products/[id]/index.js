@@ -41,6 +41,9 @@ const putHandler = async (req, res) => {
     product.isFeatured = req.body.isFeatured;
     product.isLatest = req.body.isLatest;
     product.onSale = req.body.onSale;
+    product.previewImages = req.body.previewImages;
+    console.log("Test preview");
+    console.log(req.body.previewImages);
     await product.save();
     await db.disconnect();
     res.send({ message: 'Product updated successfully' });
