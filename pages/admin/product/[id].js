@@ -1,11 +1,12 @@
 import axios from 'axios';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import React, { useEffect, useReducer } from 'react';
+import React, { useEffect, useReducer, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { toast } from 'react-toastify';
 import Layout from '../../../components/Layout';
 import { getError } from '../../../utils/error';
+import { publish } from '../../../utils/events';
 
 function reducer(state, action) {
   switch (action.type) {
@@ -40,20 +41,26 @@ function reducer(state, action) {
 export default function AdminProductEditScreen() {
   const { query } = useRouter();
   const productId = query.id;
-  const [{ loading, error, loadingUpdate, loadingUpload }, dispatch] =
+  const [appendImages, setAppendImages] = useState(true);
+  const [{ loading, error, loadingUpdate, loadingUpload, errorUpdate, errorUpload }, dispatch] =
     useReducer(reducer, {
       loading: true,
       error: '',
+      loadingUpdate: false,
+      loadingUpload: false,
+      errorUpdate: '',
+      errorUpload: ''
     });
 
   const {
     register,
     handleSubmit,
+    getValues,
     formState: { errors },
     setValue,
   } = useForm();
-
   useEffect(() => {
+    let previewImages;
     const fetchData = async () => {
       try {
         dispatch({ type: 'FETCH_REQUEST' });
@@ -71,6 +78,13 @@ export default function AdminProductEditScreen() {
         setValue('isFeatured', data.isFeatured);
         setValue('isLatest', data.isLatest || false);
         setValue('onSale', data.onSale || false);
+        if (data.previewImages) {
+          previewImages = data.previewImages.join(';');
+          previewImages = previewImages === "" ? data.image : previewImages;
+        } else {
+          previewImages = data.image;
+        }
+        setValue('previewImages', previewImages);
       } catch (err) {
         dispatch({ type: 'FETCH_FAIL', payload: getError(err) });
       }
@@ -80,6 +94,52 @@ export default function AdminProductEditScreen() {
   }, [productId, setValue]);
 
   const router = useRouter();
+
+  const previewUploadHandler = async (e, previewImageFile = "previewImages") => {
+    const url = `https://api.cloudinary.com/v1_1/${process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME}/upload`;
+    var previewUrls = [];
+    const previousUrls = getValues("previewImages") || "";
+    try {
+      publish('showLoadMask', { message: 'Uploading...', show: true });
+      dispatch({ type: 'UPLOAD_REQUEST' });
+      const {
+        data: { signature, timestamp },
+      } = await axios('/api/admin/cloudinary-sign');
+
+      const files = e.target.files;
+      const arrayOfFiles = [...files];//Array.from(files);
+      const uploaders = arrayOfFiles.map(file => {
+        const formData = new FormData();
+        formData.append('file', file);
+        formData.append('signature', signature);
+        formData.append('timestamp', timestamp);
+        formData.append('api_key', process.env.NEXT_PUBLIC_CLOUDINARY_API_KEY);
+        return axios.post(url, formData).then(response => {
+          previewUrls.push(response.data.secure_url);
+        });
+      });
+
+      axios.all(uploaders).then(() => {
+        let newUrls = previewUrls.join(';');
+        if (newUrls === "") {
+          return;
+        }
+        dispatch({ type: 'UPLOAD_SUCCESS' });
+        publish('showLoadMask', { message: 'Upload Success', show: false });
+        if (appendImages) {
+          newUrls = previousUrls.concat(";", newUrls);
+        }
+        setValue(previewImageFile, newUrls);
+        toast.success('File uploaded successfully');
+      });
+      
+      
+    } catch (err) {
+      dispatch({ type: 'UPLOAD_FAIL', payload: getError(err) });
+      publish('showLoadMask', { message: 'Upload failed', show: false });
+      toast.error(getError(err));
+    }
+  }
 
   const uploadHandler = async (e, imageField = 'image') => {
     const url = `https://api.cloudinary.com/v1_1/${process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME}/upload`;
@@ -119,9 +179,12 @@ export default function AdminProductEditScreen() {
     isFeatured,
     isLatest,
     onSale,
+    previewImages
   }) => {
     try {
       dispatch({ type: 'UPDATE_REQUEST' });
+      publish('showLoadMask', { message: 'Updating...', show: true });
+      previewImages = previewImages ? previewImages.split(";") : [];
       await axios.put(`/api/admin/products/${productId}`, {
         name,
         slug,
@@ -135,12 +198,15 @@ export default function AdminProductEditScreen() {
         isLatest,
         banner,
         onSale,
+        previewImages
       });
       dispatch({ type: 'UPDATE_SUCCESS' });
+      publish('showLoadMask', { show: false });
       toast.success('Product updated successfully');
       router.push('/admin/products');
     } catch (err) {
       dispatch({ type: 'UPDATE_FAIL', payload: getError(err) });
+      publish('showLoadMask', { show: false });
       toast.error(getError(err));
     }
   };
@@ -245,6 +311,34 @@ export default function AdminProductEditScreen() {
 
                 {loadingUpload && <div>Uploading....</div>}
               </div>
+              {errorUpload && <div className="mb-4 alert-error">Image Upload Error: {errorUpload}</div>}
+              <div className='mb-4'>
+                <label htmlFor="previewImageTextArea">Preview Images</label>
+                <textarea id='previewImageTextArea' className='w-full' {...register('previewImages', {
+                    required: 'Please enter image',
+                  })}/>
+              </div>
+              <div className="mb-4">
+                <label htmlFor="appendImagesFlag">Append Previous Images?</label>
+                <input
+                  type="checkbox"
+                  className='m-4'
+                  checked={appendImages}
+                  onChange={(e)=> { setAppendImages(e.target.checked)}}
+                  id="appendImagesFlag"/>
+            </div>
+              <div className="mb-4">
+                <label htmlFor="previewImageFiles">Upload Preview Images</label>
+                <input
+                  type="file"
+                  className="w-full"
+                  id="previewImageFiles"
+                  multiple
+                  onChange={previewUploadHandler}
+                />
+                <div><p className='text-xs text-gray-500'>If you want to retain the old values of the preview images, Copy the previous values and paste it in the last, starting with a semicolon ; after uploading new files</p></div>
+                {loadingUpload && <div>Uploading....</div>}
+              </div>
               <div className="mb-4">
                 <label htmlFor="category">Category</label>
                 <input
@@ -342,6 +436,7 @@ export default function AdminProductEditScreen() {
                   {...register('onSale', {})}
                 />
               </div>
+              {errorUpdate && <div className="mb-4 alert-error">Update Error: {errorUpdate}</div>}
               <div className="mb-4">
                 <button disabled={loadingUpdate} className="primary-button">
                   {loadingUpdate ? 'Loading' : 'Update'}

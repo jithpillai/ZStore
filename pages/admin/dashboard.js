@@ -72,7 +72,7 @@ function AdminDashboardScreen() {
     datasets: [
       {
         label: 'Sales',
-        backgroundColor: 'rgba(162, 222, 208, 1)',
+        backgroundColor: 'rgba(217, 119, 6, 1)',
         data: summary.salesData.map((x) => x.totalSales),
       },
     ],
@@ -99,7 +99,7 @@ function AdminDashboardScreen() {
           </ul>
         </div>
         <div className="md:col-span-3">
-          <h1 className="mb-4 text-xl">Admin Dashboard</h1>
+          <h1 className="mb-4 text-xl font-bold">Admin Dashboard</h1>
           {loading ? (
             <div>Loading...</div>
           ) : error ? (
@@ -128,7 +128,7 @@ function AdminDashboardScreen() {
                   <Link href="/admin/users">View users</Link>
                 </div>
               </div>
-              <h2 className="text-xl">Sales Report</h2>
+              <h2 className="text-xl font-semibold">Sales Report</h2>
               <Bar
                 options={{
                   legend: { display: true, position: 'right' },
