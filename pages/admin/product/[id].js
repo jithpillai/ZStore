@@ -1,7 +1,7 @@
 import axios from 'axios';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import React, { useEffect, useReducer } from 'react';
+import React, { useEffect, useReducer, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { toast } from 'react-toastify';
 import Layout from '../../../components/Layout';
@@ -41,6 +41,7 @@ function reducer(state, action) {
 export default function AdminProductEditScreen() {
   const { query } = useRouter();
   const productId = query.id;
+  const [appendImages, setAppendImages] = useState(true);
   const [{ loading, error, loadingUpdate, loadingUpload, errorUpdate, errorUpload }, dispatch] =
     useReducer(reducer, {
       loading: true,
@@ -54,11 +55,12 @@ export default function AdminProductEditScreen() {
   const {
     register,
     handleSubmit,
+    getValues,
     formState: { errors },
     setValue,
   } = useForm();
-
   useEffect(() => {
+    let previewImages;
     const fetchData = async () => {
       try {
         dispatch({ type: 'FETCH_REQUEST' });
@@ -76,7 +78,13 @@ export default function AdminProductEditScreen() {
         setValue('isFeatured', data.isFeatured);
         setValue('isLatest', data.isLatest || false);
         setValue('onSale', data.onSale || false);
-        setValue('previewImages', data.previewImages ? data.previewImages.join(';') : []);
+        if (data.previewImages) {
+          previewImages = data.previewImages.join(';');
+          previewImages = previewImages === "" ? data.image : previewImages;
+        } else {
+          previewImages = data.image;
+        }
+        setValue('previewImages', previewImages);
       } catch (err) {
         dispatch({ type: 'FETCH_FAIL', payload: getError(err) });
       }
@@ -90,6 +98,7 @@ export default function AdminProductEditScreen() {
   const previewUploadHandler = async (e, previewImageFile = "previewImages") => {
     const url = `https://api.cloudinary.com/v1_1/${process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME}/upload`;
     var previewUrls = [];
+    const previousUrls = getValues("previewImages") || "";
     try {
       publish('showLoadMask', { message: 'Uploading...', show: true });
       dispatch({ type: 'UPLOAD_REQUEST' });
@@ -111,10 +120,16 @@ export default function AdminProductEditScreen() {
       });
 
       axios.all(uploaders).then(() => {
-        console.log(previewUrls);
+        let newUrls = previewUrls.join(';');
+        if (newUrls === "") {
+          return;
+        }
         dispatch({ type: 'UPLOAD_SUCCESS' });
         publish('showLoadMask', { message: 'Upload Success', show: false });
-        setValue(previewImageFile, previewUrls.join(";"));
+        if (appendImages) {
+          newUrls = previousUrls.concat(";", newUrls);
+        }
+        setValue(previewImageFile, newUrls);
         toast.success('File uploaded successfully');
       });
       
@@ -303,6 +318,15 @@ export default function AdminProductEditScreen() {
                     required: 'Please enter image',
                   })}/>
               </div>
+              <div className="mb-4">
+                <label htmlFor="appendImagesFlag">Append Previous Images?</label>
+                <input
+                  type="checkbox"
+                  className='m-4'
+                  checked={appendImages}
+                  onChange={(e)=> { setAppendImages(e.target.checked)}}
+                  id="appendImagesFlag"/>
+            </div>
               <div className="mb-4">
                 <label htmlFor="previewImageFiles">Upload Preview Images</label>
                 <input

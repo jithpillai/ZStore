@@ -134,7 +134,7 @@ export default function EditUserScreen() {
             <input
               type="checkbox"
               className='m-4'
-              value={updatePassword}
+              checked={updatePassword}
               onChange={(e)=> setUpdatePassword(e.target.checked)}
               id="updatePassword"/>
         </div>
