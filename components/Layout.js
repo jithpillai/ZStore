@@ -70,7 +70,7 @@ export default function Layout({ title, children }) {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <ToastContainer position="bottom-center" limit={5}></ToastContainer>
+      <ToastContainer position="bottom-center" limit={5} autoClose={750}></ToastContainer>
       <div className="flex min-h-screen flex-col justify-between">
         <header>
           <nav className="flex h-16 items-center px-4 justify-between shadow-md">

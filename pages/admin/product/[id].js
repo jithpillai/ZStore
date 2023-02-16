@@ -41,10 +41,14 @@ function reducer(state, action) {
 export default function AdminProductEditScreen() {
   const { query } = useRouter();
   const productId = query.id;
-  const [{ loading, error, loadingUpdate, loadingUpload }, dispatch] =
+  const [{ loading, error, loadingUpdate, loadingUpload, errorUpdate, errorUpload }, dispatch] =
     useReducer(reducer, {
       loading: true,
       error: '',
+      loadingUpdate: false,
+      loadingUpload: false,
+      errorUpdate: '',
+      errorUpload: ''
     });
 
   const {
@@ -164,6 +168,7 @@ export default function AdminProductEditScreen() {
   }) => {
     try {
       dispatch({ type: 'UPDATE_REQUEST' });
+      publish('showLoadMask', { message: 'Updating...', show: true });
       previewImages = previewImages ? previewImages.split(";") : [];
       await axios.put(`/api/admin/products/${productId}`, {
         name,
@@ -181,10 +186,12 @@ export default function AdminProductEditScreen() {
         previewImages
       });
       dispatch({ type: 'UPDATE_SUCCESS' });
+      publish('showLoadMask', { show: false });
       toast.success('Product updated successfully');
       router.push('/admin/products');
     } catch (err) {
       dispatch({ type: 'UPDATE_FAIL', payload: getError(err) });
+      publish('showLoadMask', { show: false });
       toast.error(getError(err));
     }
   };
@@ -289,6 +296,7 @@ export default function AdminProductEditScreen() {
 
                 {loadingUpload && <div>Uploading....</div>}
               </div>
+              {errorUpload && <div className="mb-4 alert-error">Image Upload Error: {errorUpload}</div>}
               <div className='mb-4'>
                 <label htmlFor="previewImageTextArea">Preview Images</label>
                 <textarea id='previewImageTextArea' className='w-full' {...register('previewImages', {
@@ -404,6 +412,7 @@ export default function AdminProductEditScreen() {
                   {...register('onSale', {})}
                 />
               </div>
+              {errorUpdate && <div className="mb-4 alert-error">Update Error: {errorUpdate}</div>}
               <div className="mb-4">
                 <button disabled={loadingUpdate} className="primary-button">
                   {loadingUpdate ? 'Loading' : 'Update'}
