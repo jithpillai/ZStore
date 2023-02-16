@@ -34,7 +34,7 @@ export default function ProductScreen(props) {
   }
 
   const addToCartHandler = async () => {
-    let cartQuantity = allValues.quantity;
+    let cartQuantity = allValues.quantity || existingQty;
     if (cartQuantity === 0) {
       cartQuantity = 1; //When user clicks add to cart, atleast 1 quantity will be added
     }
