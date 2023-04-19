@@ -163,12 +163,16 @@ export default function informations() {
           Cancellation and Refund Policy
         </h2>
         <p>
-          An order can be cancelled only if, the order is not already shipped.
+          An order can be cancelled only if, the order is not already shipped. In that case the customer should collect the courier and return the product back to us. Then we can cancel the order.
         </p>
         <p>
           Goods purchased can be exchanged only within 5 days from the date of
           delivery
         </p>
+        <p>
+          To cancel or exchange and order please reach out to us through zeroto5@outlook.com or 9595333556
+        </p>
+        <p>The refund amount once approved, will be credited to your account within 7 working days once we receive the returned item, if the item is shipped already.</p>
         <p>
           The return or exchange of the order, courier charges to be borne by
           the customer, unless if there was any mistake in the items shipped
@@ -186,7 +190,7 @@ export default function informations() {
         <p>Fancy Items, no gurantee.</p>
 
         <p>
-          In case of any confusion or inconvenience, please reach out to us.{' '}
+          In case of any confusion or inconvenience, please reach out to us.
         </p>
       </section>
 
@@ -195,6 +199,8 @@ export default function informations() {
           Shipping and Delivery Policy
         </h2>
         <p>Order shipped cannot be cancelled</p>
+        <p>Shipping cost (if any) will vary depending on the location of the customer and delivery partner who are available for that particular location</p>
+        <p>At present we do not provide any international shipping.</p>
         <p>
           Orders will be shipped within 2 days of the payment confirmation.
           Unless if there is some constraints.
