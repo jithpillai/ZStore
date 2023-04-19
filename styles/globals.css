@@ -90,6 +90,7 @@ a:hover {
 
 .side-menu {
   z-index: 10;
+  bottom: 40px;
 }
 
 .search-field {
@@ -112,4 +113,11 @@ a:hover {
 }
 .map-container-2 {
   height: 500px;
+}
+
+.cart-counter {
+  position: absolute;
+  float: right;
+  margin-left: 50px;
+  margin-bottom: 38px;
 }
