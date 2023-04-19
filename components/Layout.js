@@ -626,49 +626,49 @@ export default function Layout({ title, children }) {
                 </a>
               </li>
               <li>
-                <a
+                <Link
                   href="/informations#contact-us"
                   rel="noreferrer"
                   className="mr-4 hover:underline md:mr-6"
                 >
                   Contact
-                </a>
+                </Link>
               </li>
               <li>
-                <a
+                <Link
                   href="/informations#cancel-refund"
                   rel="noreferrer"
                   className="mr-4 hover:underline md:mr-6"
                 >
                   Refund Policy
-                </a>
+                </Link>
               </li>
               <li>
-                <a
+                <Link
                   href="/informations#shipping-delivery"
                   rel="noreferrer"
                   className="mr-4 hover:underline md:mr-6"
                 >
                   Shipping Policy
-                </a>
+                </Link>
               </li>
               <li>
-                <a
+                <Link
                   href="/informations#privacy-policy"
                   rel="noreferrer"
                   className="mr-4 hover:underline md:mr-6"
                 >
                   Privacy Policy
-                </a>
+                </Link>
               </li>
               <li>
-                <a
+                <Link
                   href="/informations#terms-conditions"
                   rel="noreferrer"
                   className="mr-4 hover:underline md:mr-6"
                 >
                   Terms & Conditions
-                </a>
+                </Link>
               </li>
             </ul>
           </div>
