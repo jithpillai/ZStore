@@ -8,6 +8,9 @@ export default function informations() {
       <section id="contact-us" className="mb-32 text-gray-800">
         <div className="flex flex-col justify-between mb-5">
           <header>
+          <div className="py-2 font-semibold m-4">
+            <Link href="/">Back to Home</Link>
+          </div>
             <nav className="flex h-16 items-center px-4 justify-between">
               <Link href="/" className="text-lg font-bold">
                 <Image
