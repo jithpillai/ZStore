@@ -203,9 +203,37 @@ export default function Layout({ title, children }) {
         </div>}
         
         <main className="container m-auto mt-4 px-4">{children}</main>
-        <footer className="flex justify-center items-center h-10 shadow-inner">
-          Copyright &copy; {currentYear + ' ' + copyrightOwner}
-        </footer>
+
+        <footer class="bg-amber-300 rounded-lg shadow m-4 dark:bg-amber-300 text-black">
+          <div class="w-full mx-auto max-w-screen-xl p-4 md:flex md:items-center md:justify-between">
+            <span class="text-sm text-black sm:text-center dark:text-black font-semibold">
+              Copyright &copy; {currentYear + ' ' + copyrightOwner}
+            </span>
+          <ul class="flex flex-wrap items-center mt-3 text-sm font-medium text-gray-500 dark:text-gray-400 sm:mt-0">
+              <li>
+                  <a href="https://shop.zeroto5.in" class="mr-4 hover:underline md:mr-6 ">Home</a>
+              </li>
+              <li>
+                  <a href="https://zeroto5.in" target="_blank" rel="noreferrer" class="mr-4 hover:underline md:mr-6 ">About</a>
+              </li>
+              <li>
+                  <a href="/informations#contact-us" target="_blank" rel="noreferrer" class="mr-4 hover:underline md:mr-6">Contact</a>
+              </li>
+              <li>
+                  <a href="/informations#cancel-refund" target="_blank" rel="noreferrer" class="mr-4 hover:underline md:mr-6">Refund Policy</a>
+              </li>
+               <li>
+                  <a href="/informations#shipping-delivery" target="_blank" rel="noreferrer" class="mr-4 hover:underline md:mr-6">Shipping Policy</a>
+              </li>
+              <li>
+                  <a href="/informations#privacy-policy" target="_blank" rel="noreferrer" class="mr-4 hover:underline md:mr-6">Privacy Policy</a>
+              </li>
+              <li>
+                  <a href="/informations#terms-conditions" target="_blank" rel="noreferrer" class="mr-4 hover:underline md:mr-6">Terms & Conditions</a>
+              </li>
+          </ul>
+          </div>
+      </footer>
       </div>
     </>
   );

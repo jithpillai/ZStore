@@ -110,3 +110,6 @@ a:hover {
 .hide-scroll-bar::-webkit-scrollbar {
   display: none;
 }
+.map-container-2 {
+  height: 500px;
+}
