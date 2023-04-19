@@ -211,10 +211,10 @@ export default function Layout({ title, children }) {
             </span>
           <ul class="flex flex-wrap items-center mt-3 text-sm font-medium text-gray-500 dark:text-gray-400 sm:mt-0">
               <li>
-                  <a href="https://shop.zeroto5.in" class="mr-4 hover:underline md:mr-6 ">Home</a>
+                  <a href="https://zeroto5.in" class="mr-4 hover:underline md:mr-6 ">Home</a>
               </li>
               <li>
-                  <a href="https://zeroto5.in" target="_blank" rel="noreferrer" class="mr-4 hover:underline md:mr-6 ">About</a>
+                  <a href="https://store.zeroto5.in" target="_blank" rel="noreferrer" class="mr-4 hover:underline md:mr-6 ">About</a>
               </li>
               <li>
                   <a href="/informations#contact-us" target="_blank" rel="noreferrer" class="mr-4 hover:underline md:mr-6">Contact</a>
