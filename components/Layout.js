@@ -417,7 +417,7 @@ export default function Layout({ title, children }) {
           </div>
         </aside>
         <main className="container m-auto mt-4 px-4">{children}</main>
-        <div className="fixed bottom-0 left-0 z-50 w-full h-16 bg-white border-t border-white dark:bg-amber-400 dark:border-white">
+        <div className="fixed bottom-0 left-0 z-50 w-full h-16 bg-amber-400 border-t border-white dark:bg-amber-400 dark:border-white">
           <div className="grid h-full max-w-lg grid-cols-4 mx-auto font-medium">
             <button
               type="button"
@@ -439,7 +439,7 @@ export default function Layout({ title, children }) {
                   strokeLinejoin="round"
                 />
               </svg>
-              <span className="text-sm text-white-500 dark:text-white group-hover:text-white dark:group-hover:text-white">
+              <span className="text-sm text-white dark:text-white group-hover:text-white dark:group-hover:text-white">
                 Menu
               </span>
             </button>
