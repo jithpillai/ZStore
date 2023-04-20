@@ -422,7 +422,7 @@ export default function Layout({ title, children }) {
             <button
               type="button"
               onClick={toggleSideNav}
-              className="inline-flex flex-col items-center justify-center px-5 border-gray-200 border-x hover:bg-white dark:hover:bg-amber-600 group dark:border-white"
+              className="inline-flex flex-col items-center justify-center px-5 border-gray-200 border-x hover:bg-amber-600 dark:hover:bg-amber-600 group dark:border-white"
             >
               <svg
                 className="w-6 h-6 mb-1 text-white dark:text-white group-hover:text-white dark:group-hover:text-white"
@@ -446,7 +446,7 @@ export default function Layout({ title, children }) {
             <button
               type="button"
               onClick={navigateToHome}
-              className="inline-flex flex-col items-center justify-center px-5 border-r border-gray-200 hover:bg-white dark:hover:bg-amber-600 group dark:border-white"
+              className="inline-flex flex-col items-center justify-center px-5 border-r border-gray-200 hover:bg-amber-600 dark:hover:bg-amber-600 group dark:border-white"
             >
               <svg
                 className="w-6 h-6 mb-1 text-white dark:text-white group-hover:text-white dark:group-hover:text-white"
@@ -464,7 +464,7 @@ export default function Layout({ title, children }) {
             <button
               type="button"
               onClick={navigateToCart}
-              className="inline-flex flex-col items-center justify-center px-5 hover:bg-white dark:hover:bg-amber-600 group"
+              className="inline-flex flex-col items-center justify-center px-5 hover:bg-amber-600 dark:hover:bg-amber-600 group"
             >
               <svg
                 className="w-6 h-6 mb-1 text-white dark:text-white group-hover:text-white dark:group-hover:text-white"
@@ -495,7 +495,7 @@ export default function Layout({ title, children }) {
             {status === 'loading' ? (
               <button
                 type="button"
-                className="inline-flex flex-col items-center justify-center px-5 border-gray-200 hover:bg-white dark:hover:bg-amber-600 group border-x dark:border-white"
+                className="inline-flex flex-col items-center justify-center px-5 border-gray-200 hover:bg-amber-600 dark:hover:bg-amber-600 group border-x dark:border-white"
               >
                 <svg
                   className="w-6 h-6 mb-1 text-white dark:text-white group-hover:text-white dark:group-hover:text-white"
@@ -513,7 +513,7 @@ export default function Layout({ title, children }) {
             ) : session?.user ? (
               <Menu
                 as={'div'}
-                className="inline-flex flex-col items-center justify-center px-5 border-gray-200 hover:bg-white dark:hover:bg-amber-600 group border-x dark:border-white"
+                className="inline-flex flex-col items-center justify-center px-5 border-gray-200 hover:bg-amber-600 dark:hover:bg-amber-600 group border-x dark:border-white"
               >
                 <Menu.Button className="items-center justify-center">
                   <svg
@@ -579,7 +579,7 @@ export default function Layout({ title, children }) {
               <button
                 type="button"
                 onClick={onProfileClick}
-                className="inline-flex flex-col items-center justify-center px-5 border-gray-200 hover:bg-white dark:hover:bg-amber-600 group border-x dark:border-white"
+                className="inline-flex flex-col items-center justify-center px-5 border-gray-200 hover:bg-amber-600 dark:hover:bg-amber-600 group border-x dark:border-white"
               >
                 <svg
                   className="w-6 h-6 mb-1 text-white dark:text-white group-hover:text-white dark:group-hover:text-white"
