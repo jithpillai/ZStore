@@ -213,8 +213,9 @@ export default function informations() {
           any mistake in the items delivered
         </p>
         <p>
+          The order will be delivered within the span of 2 to 15 working days, depeding on the customers location and the delivery partner.
           Date of delivery is not a gurantee and can change based on the
-          delivery partners constraints.
+          delivery partners constraints. 
         </p>
         <p>
           In case of any confusion or inconvenience, please reach out to us.{' '}
