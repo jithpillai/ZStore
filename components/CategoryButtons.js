@@ -9,7 +9,7 @@ export default function CategoryButtons() {
                     <Link
                         href={`/search/?query=&pageType=category&category=${categoryName}`}
                         key={"category"+i}
-                        className="bg-amber-300 hover:bg-amber-500 text-white font-bold py-3 px-4">
+                        className="bg-amber-300 hover:bg-amber-500 text-black hover:text-white font-bold py-3 px-4">
                         {categoryName}
                     </Link>
                 ))}
