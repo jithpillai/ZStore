@@ -121,7 +121,7 @@ export default function Layout({ title, children }) {
       <div className="flex min-h-screen flex-col justify-between">
         <header>
         <button title="Contact Sale"
-        class="fixed z-90 right-0 bottom-20 bg-red-800 w-20 h-10 drop-shadow-lg flex justify-center items-center rounded text-white font-semibold text-l hover:bg-amber-700 hover:drop-shadow-2xl hover:animate-bounce duration-300 test-mode">Test Mode</button>
+        class="fixed z-90 right-0 bottom-20 bg-red-800 w-20 h-10 drop-shadow-lg flex justify-center items-center rounded text-white font-semibold text-l hover:bg-amber-700 hover:drop-shadow-2xl test-mode">Test Mode</button>
           <nav className="flex h-16 items-center px-4 justify-between shadow-md">
             <Link href="/" className="justify-center flex md:ml-28">
               <img
