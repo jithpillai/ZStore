@@ -121,3 +121,11 @@ a:hover {
   margin-left: 50px;
   margin-bottom: 38px;
 }
+
+.test-mode {
+  margin-right: -30px;
+  margin-bottom: 50px;
+  padding: 5px;
+  width: 100px;
+  transform: rotate(270deg);
+}
